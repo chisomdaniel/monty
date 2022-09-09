@@ -18,7 +18,7 @@ int main(int argc, char **argv)
 	char *buf = malloc(1), **opcode = NULL;
 	size_t j;
 	FILE *stream;
-	int line = 0, n;
+	int line = 0;
 	void (*op)(stack_t **stack, unsigned int line_number);
 	stack_t *stack = NULL;
 
@@ -26,11 +26,8 @@ int main(int argc, char **argv)
 	stream = fopen(argv[1], "r");
 	check_file(stream, argv[1]);
 
-	while (1)
+	while (getline(&buf, &j, stream) != -1)
 	{
-		n = getline(&buf, &j, stream);
-		if (n == -1)
-			break;
 		line++;
 		/*opcode = array(buf);*/
 		opcode = split_string(buf, " \n\t");
